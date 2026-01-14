@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grid Portfolio | Full Page Sections</title>
+
+  <!-- Icons -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #2563eb;
+      --border: #e2e8f0;
+      --shadow: 0 12px 30px rgba(2, 6, 23, 0.08);
+    }
+
+    body.dark{
+      --bg: #060b18;
+      --card: #0f172a;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #60a5fa;
+      --border: #1e293b;
+      --shadow: 0 12px 30px rgba(0,0,0,0.35);
+    }
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html{
+      scroll-behavior: smooth;
+    }
+
+    body{
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    /* ============ GRID LAYOUT ============ */
+    .layout{
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ============ SIDEBAR ============ */
+    .sidebar{
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 290px;
+      padding: 22px;
+      background: var(--card);
+      border-right: 1px solid var(--border);
+      display: grid;
+      gap: 16px;
+      align-content: start;
+      z-index: 50;
+    }
+
+    .profile{
+      text-align: center;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), transparent);
+    }
+
+    .avatar{
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      font-size: 22px;
+    }
+
+    .profile h2{
+      font-size: 20px;
+    }
+
+    .profile p{
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .nav{
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+      box-shadow: var(--shadow);
+      background: var(--card);
+      display: grid;
+      gap: 10px;
+    }
+
+    .nav a{
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 12px 12px;
+      border-radius: 14px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover{
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .nav .activeLink{
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    .theme-btn{
+      border: none;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 12px;
+      background: var(--accent);
+      color: white;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .note{
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    /* ============ MAIN AREA ============ */
+    .main{
+      margin-left: 290px; /* because sidebar fixed */
+      padding: 0;
+    }
+
+    /* ============ FULL PAGE SECTIONS ============ */
+    section{
+      min-height: 100vh;
+      padding: 50px 40px;
+      display: grid;
+      align-content: center;
+    }
+
+    /* Hero section */
+    .hero{
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heroWrap{
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .heroCard{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .heroCard h1{
+      font-size: 42px;
+      line-height: 1.1;
+    }
+
+    .heroCard h1 span{
+      color: var(--accent);
+    }
+
+    .heroCard p{
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    .heroStats{
+      display: grid;
+      gap: 12px;
+    }
+
+    .stat{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat h3{
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .stat p{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* Projects Section */
+    .projectsWrap{
+      max-width: 1100px;
+      margin: auto;
+      width: 100%;
+    }
+
+    .sectionTitle{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .sectionTitle h2{
+      font-size: 34px;
+    }
+
+    .filters{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter{
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: transparent;
+      cursor: pointer;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .filter:hover{
+      border-color: var(--accent);
+    }
+
+    .filter.active{
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .project-grid{
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      transition: 0.2s ease;
+    }
+
+    .card:hover{
+      transform: translateY(-6px);
+      border-color: var(--accent);
+    }
+
+    .card h3{
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .card p{
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 44px;
+    }
+
+    .tags{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .tag{
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .view-btn{
+      width: 100%;
+      border: none;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--accent);
+      color: white;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    /* About Section */
+    .aboutWrap{
+      max-width: 1100px;
+      margin: auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .aboutBox{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .aboutBox h2{
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    .aboutBox p{
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .skillsGrid{
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .skill{
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      background: rgba(37, 99, 235, 0.07);
+      font-weight: 800;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Contact Section */
+    .contactWrap{
+      max-width: 1100px;
+      margin: auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .contactCard{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .contactCard h2{
+      font-size: 34px;
+      margin-bottom: 10px;
+    }
+
+    .contactCard p{
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .contact-form{
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .contact-form input,
+    .contact-form textarea{
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text);
+      outline: none;
+    }
+
+    .contact-form button{
+      border: none;
+      padding: 14px;
+      border-radius: 16px;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    /* Footer inside contact section */
+    .footer{
+      text-align: center;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* ============ MODAL ============ */
+    .modal-bg{
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.62);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 18px;
+    }
+
+    .modal{
+      width: min(560px, 100%);
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .modal-head{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 12px;
+    }
+
+    .close-btn{
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text);
+      font-size: 18px;
+      padding: 6px 10px;
+      border-radius: 12px;
+    }
+
+    .close-btn:hover{
+      border: 1px solid var(--border);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1050px){
+      .project-grid{
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 900px){
+      .layout{
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar{
+        position: sticky;
+        width: 100%;
+        height: auto;
+      }
+
+      .main{
+        margin-left: 0;
+      }
+
+      section{
+        padding: 30px 18px;
+      }
+
+      .heroWrap{
+        grid-template-columns: 1fr;
+      }
+
+      .aboutWrap, .contactWrap{
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 550px){
+      .project-grid{
+        grid-template-columns: 1fr;
+      }
+
+      .heroCard h1{
+        font-size: 30px;
+      }
+
+      .sectionTitle h2, .aboutBox h2, .contactCard h2{
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="profile">
+      <div class="avatar">JC</div>
+      <h2>John Cena</h2>
+      <p>B.Tech | Web Developer<br/>MERN/MEAN Stack</p>
+    </div>
+
+    <nav class="nav" id="navLinks">
+      <a href="#home" class="activeLink"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="#projects"><i class="fa-solid fa-diagram-project"></i> Projects</a>
+      <a href="#about"><i class="fa-solid fa-user"></i> About</a>
+      <a href="#contact"><i class="fa-solid fa-envelope"></i> Contact</a>
+    </nav>
+
+    <button id="themeBtn" class="theme-btn">
+      <i class="fa-solid fa-moon"></i> Dark Mode
+    </button>
+
+    
+  </aside>
+
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HOME / HERO -->
+    <section id="home" class="hero">
+      <div class="heroWrap">
+        <div class="heroCard">
+          <h1>Build <span>Modern Portfolio</span> using CSS Grid 🚀</h1>
+          <p>
+            This project is designed for B.Tech students to master layout skills.
+            Sidebar is fixed, sections are full page (100vh), and JavaScript is used only for
+            simple logic: <b>conditions</b> and <b>DOM manipulation</b>.
+          </p>
+        </div>
+
+        <div class="heroStats">
+          <div class="stat">
+            <h3>6+</h3>
+            <p>Projects displayed in Grid Cards</p>
+          </div>
+          <div class="stat">
+            <h3>4</h3>
+            <p>Sections (100vh) for real page experience</p>
+          </div>
+          <div class="stat">
+            <h3>JS</h3>
+            <p>Only filters + theme + modal + form validation</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="projectsWrap">
+        <div class="sectionTitle">
+          <h2>Projects</h2>
+          <div class="filters">
+            <button class="filter active" data-filter="all">All</button>
+            <button class="filter" data-filter="frontend">Frontend</button>
+            <button class="filter" data-filter="backend">Backend</button>
+            <button class="filter" data-filter="fullstack">Fullstack</button>
+          </div>
+        </div>
+
+        <div id="projectGrid" class="project-grid"></div>
+      </div>
+    </section>
+
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="aboutWrap">
+        <div class="aboutBox">
+          <h2>About</h2>
+          <p>
+            I am a developer passionate about building real-world UI projects.
+            I focus on HTML, CSS, JavaScript and modern frameworks.
+            This portfolio demonstrates clean layout using <b>CSS Grid</b>.
+          </p>
+          <p style="margin-top:12px;">
+            I also create educational content and projects for students to learn and practice.
+          </p>
+        </div>
+
+        <div class="aboutBox">
+          <h2>Skills</h2>
+
+          <div class="skillsGrid">
+            <div class="skill"><i class="fa-brands fa-html5"></i> HTML5</div>
+            <div class="skill"><i class="fa-brands fa-css3-alt"></i> CSS3 + Grid</div>
+            <div class="skill"><i class="fa-brands fa-js"></i> JavaScript</div>
+            <div class="skill"><i class="fa-solid fa-database"></i> SQL / MongoDB</div>
+            <div class="skill"><i class="fa-brands fa-node-js"></i> Node.js</div>
+            <div class="skill"><i class="fa-brands fa-react"></i> React</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contactWrap">
+
+        <div class="contactCard">
+          <h2>Contact</h2>
+          <p>
+            Want to collaborate or ask a question?  
+            Fill the form and send a message.
+          </p>
+
+          <div style="margin-top:16px; display:grid; gap:10px;">
+            <p><b>Email:</b> example@gmail.com</p>
+            <p><b>Location:</b> India</p>
+            <p><b>Social:</b> Instagram / LinkedIn</p>
+          </div>
+        </div>
+
+        <div class="contactCard">
+          <h2>Message Me</h2>
+
+          <form class="contact-form" id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" />
+            <input type="email" id="email" placeholder="Your Email" />
+            <textarea id="message" placeholder="Your Message" rows="5"></textarea>
+            <button type="submit">Send Message</button>
+          </form>
+
+          <p id="formMsg" style="margin-top:12px; color: var(--muted); font-weight:700;"></p>
+        </div>
+
+      </div>
+
+      <p class="footer">© 2026 Portfolio Project | Made for Students</p>
+    </section>
+
+  </main>
+
+  <!-- MODAL -->
+  <div id="modalBg" class="modal-bg">
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="modalTitle">Project</h3>
+        <button id="closeModal" class="close-btn">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <p id="modalDesc" style="color: var(--muted); line-height: 1.7;"></p>
+      <div id="modalTags" class="tags" style="margin-top: 14px;"></div>
+    </div>
+  </div>
+
+
+  <script>
+    /* ==============================
+       DATA
+    ============================== */
+    const projects = [
+      { title: "Portfolio Website", type: "frontend", desc: "A responsive portfolio using CSS Grid layout.", tags: ["HTML", "CSS", "Grid"] },
+      { title: "Social Sidebar", type: "frontend", desc: "Fixed social icon sidebar (position fixed).", tags: ["CSS", "Position"] },
+      { title: "Weather UI", type: "frontend", desc: "DOM based UI project with simple rendering.", tags: ["JavaScript", "DOM"] },
+      { title: "Student CRUD Backend", type: "backend", desc: "Simple CRUD structure project idea for backend.", tags: ["Node.js", "MongoDB"] },
+      { title: "Expense Tracker", type: "fullstack", desc: "Track expenses with UI + logic.", tags: ["JS", "Logic"] },
+      { title: "E-commerce Mini", type: "fullstack", desc: "Product grid + view modal (project preview).", tags: ["HTML", "JS"] }
+    ];
+
+    /* ==============================
+       DOM ELEMENTS
+    ============================== */
+    const projectGrid = document.getElementById("projectGrid");
+    const filters = document.querySelectorAll(".filter");
+
+    const modalBg = document.getElementById("modalBg");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDesc = document.getElementById("modalDesc");
+    const modalTags = document.getElementById("modalTags");
+    const closeModal = document.getElementById("closeModal");
+
+    const themeBtn = document.getElementById("themeBtn");
+
+    const contactForm = document.getElementById("contactForm");
+    const formMsg = document.getElementById("formMsg");
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const messageInput = document.getElementById("message");
+
+    /* ==============================
+       FUNCTIONS
+    ============================== */
+    function renderProjects(filterType) {
+      projectGrid.innerHTML = "";
+
+      projects.forEach((p, idx) => {
+        // ✅ Condition requirement
+        if (filterType === "all" || p.type === filterType) {
+          const card = document.createElement("div");
+          card.className = "card";
+
+          const tagsHTML = p.tags.map(tag => `<span class="tag">${tag}</span>`).join("");
+
+          card.innerHTML = `
+            <h3>${p.title}</h3>
+            <p>${p.desc}</p>
+            <div class="tags">${tagsHTML}</div>
+            <button class="view-btn" data-index="${idx}">View</button>
+          `;
+
+          projectGrid.appendChild(card);
+        }
+      });
+    }
+
+    function openProjectModal(project) {
+      modalTitle.innerText = project.title;
+      modalDesc.innerText = project.desc;
+
+      modalTags.innerHTML = "";
+      project.tags.forEach(tag => {
+        const span = document.createElement("span");
+        span.className = "tag";
+        span.innerText = tag;
+        modalTags.appendChild(span);
+      });
+
+      modalBg.style.display = "flex";
+    }
+
+    function closeProjectModal() {
+      modalBg.style.display = "none";
+    }
+
+    /* ==============================
+       EVENTS
+    ============================== */
+
+    // Filter projects
+    filters.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filters.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filterType = btn.getAttribute("data-filter");
+        renderProjects(filterType);
+      });
+    });
+
+    // View project modal (event delegation)
+    projectGrid.addEventListener("click", (e) => {
+      if (e.target.classList.contains("view-btn")) {
+        const idx = e.target.getAttribute("data-index");
+        openProjectModal(projects[idx]);
+      }
+    });
+
+    // Close modal
+    closeModal.addEventListener("click", closeProjectModal);
+    modalBg.addEventListener("click", (e) => {
+      if (e.target === modalBg) closeProjectModal();
+    });
+
+    // Theme toggle
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+
+      // ✅ Condition requirement
+      if (document.body.classList.contains("dark")) {
+        themeBtn.innerHTML = `<i class="fa-solid fa-sun"></i> Light Mode`;
+      } else {
+        themeBtn.innerHTML = `<i class="fa-solid fa-moon"></i> Dark Mode`;
+      }
+    });
+
+    // Contact form validation (minimal JS)
+    contactForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const name = nameInput.value.trim();
+      const email = emailInput.value.trim();
+      const msg = messageInput.value.trim();
+
+      // ✅ Condition logic
+      if (name === "" || email === "" || msg === "") {
+        formMsg.innerText = "❌ Please fill all fields!";
+        return;
+      }
+
+      formMsg.innerText = `✅ Thanks ${name}! Your message has been sent.`;
+      contactForm.reset();
+    });
+
+    // Load default
+    renderProjects("all");
+  </script>
+
+</body>
+</html>
